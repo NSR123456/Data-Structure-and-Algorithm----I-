@@ -1,8 +1,7 @@
 #include<stdio.h>
 
-void insert(int arr[],int pos, int x ) {
-    int n = sizeof(arr)/sizeof(arr[0]);
-    
+void insert(int arr[],int n,int pos, int x ) {
+
     n++;
     for(int i= n-1; i >= pos; i--)
         arr[i] = arr[i-1];
@@ -13,9 +12,9 @@ void insert(int arr[],int pos, int x ) {
     printf("\n");
 }
 
-void deleteElement(int arr[], int x) {
+void deleteElement(int arr[],int n, int x) {
     int i;
-    int n = sizeof(arr)/sizeof(arr[0]);
+
     for(i=0; i<n;i++)
         if(arr[i] == x) break;
     if(i<n) {
@@ -29,15 +28,103 @@ void deleteElement(int arr[], int x) {
     printf("\n");
 }
 
+void traverse(int arr[],int n) {
 
+    printf("After Traversing:\n");
+    for(int i=0; i<n; i++)
+        printf("%d ",arr[i]);
+    printf("\n");
+}
+
+void linearSearch(int arr[],int n,int x)
+{
+    int i,result=0;
+    for(i=0; i<n;i++) {
+        if(arr[i] == x)  { printf("Found %d at index : %d\n",x, i);
+        result = 1;
+        }
+    }
+    if(!result) printf("The number %d is not present in the array.\n",x);
+}
+
+void binarySearch(int arr[],int n,int l,int r,int x)
+{
+
+    int result = -1;
+    while(l <= r)
+    {
+        int m = l + (r-l)/2;
+        if(arr[m] == x) {
+                result = m;
+                break;
+                }
+        if(arr[m]<x) l= m+1;
+        else r = m - 1;
+        }
+        (result == -1)? printf("Element %d is not present in array\n ",x) : printf("Element %d is present at index %d\n",x, result);
+
+}
+
+void reverse(int arr[],int n)
+{
+    int start = 0, end = n-1;
+    int temp;
+    while(start<end)
+    {
+        temp = arr[start];
+        arr[start] = arr[end];
+        arr[end] = temp;
+        start++;
+        end--;
+    }
+
+}
 
 int main()
 {
-    int array = {8, 64, 9, 56, 67, 64, 2, 16,3};
-    insert(array, 6, 25);
-    deleteElement(array, 9);
-    
-    
+    int array[] = {8, 64, 9, 56, 67, 64, 2, 16,3};
+    int size = sizeof(array)/sizeof(array[0]);
+
+
+    traverse(array,size);
+    printf("After performing Linear Search:\n");
+    linearSearch(array,size, 64);
+    linearSearch(array,size,90);
+
+
+    printf("Array after using reverse function:\n");
+
+    reverse(array,size);
+    traverse(array,size);
+
+    //Sorting the array
+    for(int step=0; step<size-1;++step) {
+        int swapped = 0;
+        for(int i=0;i<size-step-1;++i){
+            if(array[i]>array[i+1]) {
+                int temp = array[i];
+                array[i] = array [i+1];
+                array[i+1] = temp;
+                swapped = 1;
+            }
+        }
+        if(swapped == 0) {
+            break;
+        }
+    }
+    printf("After performing Binary Search:\n");
+    binarySearch(array,size,0, size-1, 56);
+
+
+    printf("Array after inserting element at position 6:\n");
+    insert(array,size, 6, 25);
+
+    int array2[] = { 8, 64, 9, 56, 67, 64, 2, 16,3 };
+    size = sizeof(array)/sizeof(array[0]);
+    printf("Array after deleting 9:\n");
+    deleteElement(array,size, 9);
+
+
     return 0;
 }
 
